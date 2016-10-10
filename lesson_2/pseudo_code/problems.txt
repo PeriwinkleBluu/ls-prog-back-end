@@ -1,0 +1,29 @@
+1. a method that returns the sum of two integers
+
+START
+GET the integer values
+SET integers one and two to those values
+SET a sum variable to the sume of the two integers
+RETURN the sum
+END
+
+2. a method that takes an array of strings, and returns a string that is all those strings concatenated together
+
+START
+SET an empty string variablt str
+WHILE there is still a next string in the array
+  str+=the string in the current index of the array
+return str
+END
+  
+  
+
+3. a method that takes an array of integers, and returns a new array with every other element
+START
+SET arr as an empty array
+WHILE there is an integer at the current index of the array
+  IF the index is odd
+    Append the current integer to arr
+  end
+return arr
+END
