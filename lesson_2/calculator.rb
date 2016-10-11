@@ -11,7 +11,7 @@ def prompt(message)
 end
 
 def valid_number?(number)
-  if number.to_i != 0
+  if number.to_f.to_s == number
     true
   else
     false
