@@ -1,0 +1,10 @@
+What would you expect the code below to print out?
+
+numbers = [1, 2, 2, 3]
+numbers.uniq
+
+puts numbers
+
+uniq should return a new array, not mutate the numbers array. 
+puts will print each item in the array on it's own line, as opposed
+to p

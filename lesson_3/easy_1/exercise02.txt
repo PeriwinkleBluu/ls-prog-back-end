@@ -1,0 +1,18 @@
+1. what is != and where should you use it?
+This is the not equals operator, it is the opposite of ==.
+use it when you want to know if something doesn't equal something.
+
+2. put ! before something, like !user_name
+negates the variable in a boolean sense
+
+3. put ! after something, like words.uniq!
+depends on how the method was coded
+
+4. put ? before something
+if it's a character returns its ascii character code
+
+5. put ? after something
+depends on how the something is coded
+
+6. put !! before something, like !!user_name
+double negation, will return the boolean value of the variable
