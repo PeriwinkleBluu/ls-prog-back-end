@@ -82,6 +82,11 @@ def detect_winner(brd)
   end
   nil
 end
+
+
+player_wins = 0
+computer_wins=0
+
 loop do
   board = initialize_board
   display_board(board)
@@ -97,7 +102,17 @@ loop do
   display_board(board)
   if someone_won?(board)
     winner = detect_winner(board) == PLATER_MARKER ? 'Player' : 'Computer'
-    prompt "#{winner} won"
+    if winner== 'Player'
+      player_wins+=1
+    else
+      computer_wins+=1
+    end
+    if player_wins<5 && computer_wins<5
+      prompt "#{winner} won, the score is Player:#{player_wins} Computer:#{computer_wins}"
+    else
+      prompt "#{winner} wins the whole shebang"
+      break
+    end
   else
     prompt "It is a tie"
   end
