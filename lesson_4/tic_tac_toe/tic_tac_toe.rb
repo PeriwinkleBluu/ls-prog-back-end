@@ -6,6 +6,8 @@ COMPUTER_MARKER = 'O'.freeze
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
                 [[1, 5, 9], [3, 5, 7]].freeze
+current_player='Player'
+
 def prompt(msg)
   puts "=>#{msg}"
 end
@@ -54,10 +56,65 @@ def player_places_piece!(brd)
   end
   brd[square] = PLATER_MARKER
 end
+#my threat finder
+#def threat_sqr(brd, line, sym)
+#  matches=0
+#  sqr = nil
+#  line.each do |i| 
+#    if brd[i] == sym
+#      matches+=1
+#    elsif brd[i] == ' '
+#      sqr = i
+#    end
+#  end
+#  matches == 2 ? sqr : nil 
+#end
 
-def computer_places_piece(brd)
-  square = empty_squares(brd).sample
-  brd[square] = COMPUTER_MARKER
+def threat_sqr(brd, line, sym)
+  if brd.values_at(*line).count(sym)==2
+    brd.select{|k,v| line.include?(k) && v == INITIAL_MARKER}.keys.first
+  else
+    nil
+  end
+end
+
+def computer_places_piece!(brd)
+  sqr = nil
+  #place in winning square
+  WINNING_LINES.each do |line|
+    sqr =  threat_sqr(brd,line, COMPUTER_MARKER )
+    break if sqr
+  end
+  
+  #place in defending square
+  if !sqr
+    WINNING_LINES.each do |line|
+      sqr =  threat_sqr(brd,line, PLATER_MARKER )
+      break if sqr
+    end
+  end
+  #place in 5 if available
+  if !sqr
+    empty_squares(brd).include?(5) ? sqr=5 : nil
+  end
+  #choose randomly
+  if !sqr
+    sqr = empty_squares(brd).sample
+  end
+  
+  brd[sqr] = COMPUTER_MARKER
+end
+
+def place_piece!(brd, plyr)
+  plyr == 'Player' ? player_places_piece!(brd) : computer_places_piece!(brd)
+end
+
+def alternate_player(plyr)
+  plyr == 'Player' ? 'Computer' : 'Player'
+end
+
+def set_player(plyr)
+  plyr == 'c' ? 'Computer' : 'Player'
 end
 
 def board_full?(brd)
@@ -90,13 +147,23 @@ computer_wins=0
 loop do
   board = initialize_board
   display_board(board)
+  prompt "Should the (C)omputer or (P)layer go first?"
+  first_player = gets.chomp.downcase.chars.first
+  current_player = set_player(first_player)
+
+#  loop do
+#    player_places_piece!(board)
+#    break if someone_won?(board) || board_full?(board)
+#    computer_places_piece(board)
+#   break if someone_won?(board) || board_full?(board)
+#    display_board(board)
+#  end
 
   loop do
-    player_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
-    computer_places_piece(board)
-    break if someone_won?(board) || board_full?(board)
     display_board(board)
+    place_piece!(board, current_player)
+    current_player = alternate_player(current_player)
+    break if someone_won?(board) || board_full?(board)
   end
 
   display_board(board)
