@@ -13,7 +13,7 @@ loop do
 
   player_plays(player_hand, dealer_hand, current_deck)
 
-  if get_value(player_hand) <= 21
+  if get_value(player_hand) <= MAX_VALUE
     dealer_plays(dealer_hand, current_deck)
   end
 

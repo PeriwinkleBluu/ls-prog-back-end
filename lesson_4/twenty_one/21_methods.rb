@@ -1,4 +1,6 @@
 SUITS = ["\u2660", "\u2661", "\u2662", "\u2663"].freeze
+MAX_VALUE = 21.freeze
+DEALER_STOP = 17
 
 # reset deck to full cards
 def initialize_deck
@@ -38,7 +40,7 @@ def get_value(card_list)
              end
   end
   # if value is over 21 and the player has an A recalculate
-  if value > 21 && card_list.any? { |i| [["A", 0], ["A", 1], ["A", 2], ["A", 3]].include? i }
+  if value > MAX_VALUE && card_list.any? { |i| [["A", 0], ["A", 1], ["A", 2], ["A", 3]].include? i }
     value = calc_a_value(card_list, value)
   end
   value
@@ -54,7 +56,7 @@ def calc_a_value(card_list, value)
     end
   end
   # turn the minimum required into 1s
-  while value > 21 && count > 0
+  while value > MAX_VALUE && count > 0
     value -= 10
     count -= 1
   end
@@ -76,7 +78,7 @@ def player_plays(player_hand, dealer_hand, current_deck)
     answer = gets.chomp.downcase
     break unless answer[0] == 'h'
     player_hand << deal_card!(current_deck)
-    if get_value(player_hand) > 21
+    if get_value(player_hand) > MAX_VALUE
       puts "You Busted!"
       break
     end
@@ -84,13 +86,13 @@ def player_plays(player_hand, dealer_hand, current_deck)
 end
 
 def dealer_plays(dealer_hand, current_deck)
-  while get_value(dealer_hand) < 17
+  while get_value(dealer_hand) < DEALER_STOP
     dealer_hand << deal_card!(current_deck)
   end
 end
 
 def get_winner(player_hand, dealer_hand)
-  if (get_value(player_hand) <= 21 && get_value(player_hand) > get_value(dealer_hand)) || get_value(dealer_hand) > 21
+  if (get_value(player_hand) <= MAX_VALUE && get_value(player_hand) > get_value(dealer_hand)) || get_value(dealer_hand) > MAX_VALUE
     "Player Wins!"
   else
     "Dealer Wins!"
