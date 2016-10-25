@@ -1,6 +1,6 @@
 
 # methds to support playing 21
-require_relative '21_methods'
+require_relative 'twenty_one_methods'
 score = [0,0]
 
 loop do
