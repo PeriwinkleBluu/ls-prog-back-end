@@ -1,5 +1,6 @@
+#print suits using their unicode value
 SUITS = ["\u2660", "\u2661", "\u2662", "\u2663"].freeze
-MAX_VALUE = 21.freeze
+MAX_VALUE = 21
 DEALER_STOP = 17
 
 # reset deck to full cards
@@ -55,7 +56,7 @@ def calc_a_value(card_list, value)
       count += 1
     end
   end
-  # turn the minimum required into 1s
+  # turn the minimum required into 1's
   while value > MAX_VALUE && count > 0
     value -= 10
     count -= 1
@@ -63,11 +64,12 @@ def calc_a_value(card_list, value)
   value
 end
 
-# removes a card from the list and returns it
+# removes a card from the deck and returns it
 def deal_card!(card_list)
   card_list.delete_at rand card_list.length
 end
 
+#The logic for the players turn
 def player_plays(player_hand, dealer_hand, current_deck)
   loop do
     system 'clear'
@@ -85,16 +87,30 @@ def player_plays(player_hand, dealer_hand, current_deck)
   end
 end
 
+#dealers logic
 def dealer_plays(dealer_hand, current_deck)
   while get_value(dealer_hand) < DEALER_STOP
     dealer_hand << deal_card!(current_deck)
   end
 end
 
+#find out whether the player or dealer won
 def get_winner(player_hand, dealer_hand)
-  if (get_value(player_hand) <= MAX_VALUE && get_value(player_hand) > get_value(dealer_hand)) || get_value(dealer_hand) > MAX_VALUE
-    "Player Wins!"
+  deal_points = get_value(dealer_hand)
+  player_points = get_value(player_hand)
+  if (player_points <= MAX_VALUE && player_points > deal_points) || deal_points > MAX_VALUE
+    "The player wins!"
+  elsif player_points == deal_points
+    "It's a tie!"
   else
-    "Dealer Wins!"
+    "The dealer wins!"
+  end
+end
+
+def keep_score!(winner, score)
+  if winner == "The player wins!"
+    score[0] += 1 
+  elsif winner == "The dealer wins!"
+    score[1] += 1
   end
 end
