@@ -1,4 +1,4 @@
-#print suits using their unicode value
+# print suits using their unicode value
 SUITS = ["\u2660", "\u2661", "\u2662", "\u2663"].freeze
 MAX_VALUE = 21
 DEALER_STOP = 17
@@ -69,13 +69,13 @@ def deal_card!(card_list)
   card_list.delete_at rand card_list.length
 end
 
-#The logic for the players turn
+# The logic for the players turn
 def player_plays(player_hand, dealer_hand, current_deck)
   loop do
     system 'clear'
     puts "The dealer has #{display_cards([dealer_hand[0]])} and ??"
     puts "Your hand is: #{display_cards(player_hand)}"
-    puts "Your hand is currently worth #{get_value(player_hand)} points"
+    puts "Your hand is currently worth #{get_value(player_hand)} points."
     puts 'Would you like to (h)it or (s)tay?'
     answer = gets.chomp.downcase
     break unless answer[0] == 'h'
@@ -87,18 +87,19 @@ def player_plays(player_hand, dealer_hand, current_deck)
   end
 end
 
-#dealers logic
+# dealers logic
 def dealer_plays(dealer_hand, current_deck)
   while get_value(dealer_hand) < DEALER_STOP
     dealer_hand << deal_card!(current_deck)
   end
 end
 
-#find out whether the player or dealer won
+# find out whether the player or dealer won
 def get_winner(player_hand, dealer_hand)
   deal_points = get_value(dealer_hand)
   player_points = get_value(player_hand)
-  if (player_points <= MAX_VALUE && player_points > deal_points) || deal_points > MAX_VALUE
+  if (player_points <= MAX_VALUE && player_points > deal_points) ||
+     deal_points > MAX_VALUE
     "The player wins!"
   elsif player_points == deal_points
     "It's a tie!"
@@ -109,7 +110,7 @@ end
 
 def keep_score!(winner, score)
   if winner == "The player wins!"
-    score[0] += 1 
+    score[0] += 1
   elsif winner == "The dealer wins!"
     score[1] += 1
   end
