@@ -6,13 +6,8 @@ DEALER_STOP = 17
 def initialize_deck
   suit_numbers = *(0..3)
   values = *(2..10).map(&:to_s) + ["A", "K", "Q", "J"]
-  deck = []
-  suit_numbers.each do |s|
-    values.each do |v|
-      deck.push([v, s])
-    end
-  end
-  deck
+
+  values.product(suit_numbers)
 end
 
 def display_cards(card_list)
