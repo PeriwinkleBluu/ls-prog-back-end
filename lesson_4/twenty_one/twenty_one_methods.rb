@@ -42,15 +42,13 @@ def get_value(card_list)
 end
 
 def calc_a_value(card_list, value)
-  count = card_list.count { |i| i[0] == "A" }
-  # turn the minimum required into 1's
-  while value > MAX_VALUE && count > 0
-    value -= 10
-    count -= 1
+  card_list.count { |i| i[0] == "A" }.times do
+    value -= 10 if value > MAX_VALUE
   end
   value
 end
 
+# removes card from deck and adds it to hand
 def deal_card!(card_list, hand)
   hand << card_list.delete_at(rand(card_list.length))
 end
